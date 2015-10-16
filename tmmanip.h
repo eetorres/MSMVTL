@@ -1,11 +1,10 @@
-# msmvtl
-The Mini Scientific Matrix and Vector Template Library is a simple matrix and vector C++ template library :)
-
-// MSMVTL v 1.0 (Beta version)
 // Mini Scientific Matrix and Vector Template Library - MSMVTL
 // MSMVTL is a simple  matrix and vector template library
 //
-// Copyrigth 2002 by Edmanuel Torres, eetorres@gmail.com
+// FILE: tmmanip.h
+//       help functions for numerical programming.
+//
+// Copyright 2002-2012 by Edmanuel Torres A. (eetorres@gmail.com)
 //
 // Don't hesitate to contact me for any question, suggestion,
 // modification or bug. Get the latest version at:
@@ -25,4 +24,49 @@ The Mini Scientific Matrix and Vector Template Library is a simple matrix and ve
 // License along with this library; if not, write to the Free Software
 // Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307
 // USA.
+//
+//========================================================================
 
+
+#ifndef _TMMANIP_H_
+#define _TMMANIP_H_ 1
+
+#include <msmvtl/tvmath.h>
+
+template<class _T> inline _T m_get_intervals(_T _m){
+    _T _intv(_m.cols(),2);
+    TVector<real> _t;
+    for(unsigned int i=0; i<_m.cols(); i++){
+	_t = _m.get_col(i);
+	_intv[i][0] =_t.get_min();
+	_intv[i][1] =_t.get_max();
+    }
+    return _intv;
+}
+
+template<class _T> _T m_normalize_ranges(_T _m1, _T _m2){
+    TVector<real> _t;
+    _T _m(_m1.rows(),0);
+    for(unsigned int i=0; i<_m1.cols(); i++){
+	_t = _m1.get_col(i);
+	_t = vnormrange(_t,_m2[i]);
+	_m.add_col(_t);
+    }
+    return _m;
+}
+
+template<class _T> _T m_rescale(_T _m1, _T _m2){
+    TVector<real> _t;
+    _T _m(_m1.rows(),0);
+    for(unsigned int i=0; i<_m1.cols(); i++){
+	_t = _m1.get_col(i);
+	_t = vrange(_t,_m2[i]);
+	_m.add_col(_t);
+    }
+    return _m;
+}
+
+#endif
+
+//
+    
